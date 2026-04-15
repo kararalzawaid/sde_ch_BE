@@ -93,7 +93,7 @@ export class SecurityService {
     return { accessToken, refreshToken: newRefreshToken };
   }
 
-  async verify(verifyUserDto: VerifyUserDto): Promise<any> {
+  async verify(verifyUserDto: VerifyUserDto): Promise<{ id: string }> {
     const { token } = verifyUserDto;
 
     try {

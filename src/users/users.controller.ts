@@ -4,6 +4,7 @@ import { UsersService } from '@users/users.service';
 import { CreateUserDto } from '@users/dto/create-user.dto';
 
 import { Public } from '@security/decorators/public.decorator';
+import { User } from '@users/entities/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -18,7 +19,7 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(): Promise<any> {
+  async findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 

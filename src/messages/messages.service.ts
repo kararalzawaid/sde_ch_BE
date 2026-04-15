@@ -73,7 +73,7 @@ export class MessagesService {
     await this.messagesRepository.update({ id: message.id }, updateMessageDto);
   }
 
-  async findOne(id: string): Promise<any> {
+  async findOne(id: string): Promise<Message> {
     // i need to return message without senstive data like password, password hash, password recovery hash, password recovery expires
     // select id, tag, text, user.id, user.email, user.username from messages left join users on messages.user_id = users.id where messages.id = :id
     // however to ensure no mistakes i made the password hash and password recovery hash and password recovery expires select false
@@ -122,11 +122,11 @@ export class MessagesService {
       ]);
 
     if (tag) {
-      qb.where('message.tag = :tag', { tag });
+      qb.andWhere('message.tag = :tag', { tag });
     }
 
     if (startDate) {
-      qb.where('message.createdAt >= :startDate', { startDate });
+      qb.andWhere('message.createdAt >= :startDate', { startDate });
     }
 
     if (endDate) {
@@ -134,7 +134,7 @@ export class MessagesService {
     }
 
     if (userId) {
-      qb.where('message.userId = :userId', { userId });
+      qb.andWhere('user.id = :userId', { userId });
     }
 
     return qb;

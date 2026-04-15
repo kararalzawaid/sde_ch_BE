@@ -20,13 +20,13 @@ import { CreateOrUpdateMessageDto } from '@messages/dto/create-or-update-message
 
 @Controller('messages')
 export class MessagesController {
-  constructor(private readonly messagesService: MessagesService) {}
+  constructor(private readonly messagesService: MessagesService) { }
 
   @Post()
   async create(
     @Request() req,
     @Body() createMessageDto: CreateOrUpdateMessageDto
-  ): Promise<any> {
+  ): Promise<Message> {
     const userId = req?.user?.id;
 
     return this.messagesService.create(createMessageDto, userId);
