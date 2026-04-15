@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  sde_service:
+    platform: linux/x86_64
+    container_name: sde_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: >
+      sh -c "yarn install &&
+            yarn migration:run &&
+            yarn start:debug"
+    depends_on:
+      sde_postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+  sde_postgres:
+    image: postgres:16
+    container_name: sde_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-nestjs_db}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-nestjs_db}"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_data:
+networks:
+  default:
+    name: ${DOCKER_NETWORK}
