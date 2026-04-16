@@ -22,11 +22,11 @@ export class SecurityService {
     @InjectRepository(RefreshToken)
     private readonly refreshTokenRepository: Repository<RefreshToken>,
     private jwtService: JwtService
-  ) {}
+  ) { }
 
   async login(
     loginUserDto: LoginUserDto
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string; userId: string }> {
     const { email, password } = loginUserDto;
 
     const user = await this.usersService.validateUser(email, password);
@@ -35,7 +35,7 @@ export class SecurityService {
 
     const refreshToken = await this.findOrCreateRefreshToken(user.id);
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, userId: user.id };
   }
 
   private async findOrCreateRefreshToken(userId: string): Promise<string> {

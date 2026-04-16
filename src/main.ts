@@ -37,8 +37,8 @@ async function bootstrap() {
 
   const port = process.env.SERVER_PORT || 4000;
   await app.listen(port);
-  console.log(`🚀 App is running on http://localhost:${port}`);
-  console.log(`📘 Swagger UI: http://localhost:${port}/api`);
+  console.log(`App is running on http://localhost:${port}`);
+  console.log(`Swagger UI: http://localhost:${port}/api`);
 
   // this part is for handling the request that already in the server process when the cluster being stop, or the server
   // so we insure that the  all the request is being fulfilled before close the service or shut down the pod

@@ -11,7 +11,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>
-  ) {}
+  ) { }
 
   async create(
     createUserDto: CreateUserDto
@@ -77,5 +77,9 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return this.usersRepository.find();
+  }
+
+  async findOne(id: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { id } });
   }
 }

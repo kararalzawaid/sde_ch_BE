@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateOrUpdateMessageDto {
   @IsString()
@@ -12,6 +12,7 @@ export class CreateOrUpdateMessageDto {
 
   @IsString()
   @IsNotEmpty()
+  @MaxLength(240, { message: 'Text must be less than 240 characters' })
   @ApiProperty({
     description: 'Text of the message',
     example: 'test'

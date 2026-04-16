@@ -10,6 +10,7 @@ import { DatabaseModule } from '@database/database.module';
 import { SecurityModule } from '@security/security.module';
 import { MessagesModule } from '@messages/messages.module';
 import { CommonModule } from '@common/common.module';
+import { AppController } from './app.controller';
 
 // https://docs.nestjs.com/security/authentication
 // i inspired from this guide to create this global guard
@@ -26,6 +27,7 @@ import { CommonModule } from '@common/common.module';
     MessagesModule,
     DatabaseModule
   ],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_GUARD,

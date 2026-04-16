@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Request } from '@nestjs/common';
 import { UsersService } from '@users/users.service';
 
 import { CreateUserDto } from '@users/dto/create-user.dto';
@@ -8,7 +8,7 @@ import { User } from '@users/entities/user.entity';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   @Public()
@@ -26,5 +26,12 @@ export class UsersController {
   @Delete()
   async delete(): Promise<void> {
     return this.usersService.delete();
+  }
+
+  @Get('me')
+  async me(@Request() req): Promise<User> {
+    const userId = req?.user?.id;
+
+    return this.usersService.findOne(userId);
   }
 }

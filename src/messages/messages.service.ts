@@ -119,7 +119,8 @@ export class MessagesService {
         'user.id',
         'user.email',
         'user.username'
-      ]);
+      ])
+      .orderBy('message.createdAt', 'DESC');
 
     if (tag) {
       qb.andWhere('message.tag = :tag', { tag });

@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class LogsService {
+  private readonly logger = new Logger();
+
   logMessageCreatedReceived(event): void {
-    console.log(`[event-received] message.created -> body=${event}}`);
+    this.logger.log(`[event-received] message.created -> body=${event}}`);
   }
 }
